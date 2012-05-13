@@ -1,10 +1,15 @@
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.CMFCore.utils import getToolByName
-from zope.component import getUtility
+
 from plone.memoize.instance import memoize
+
+from zope.component import getUtility
 from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
+
+from transaction import commit
+
 from redturtle.utils import msgFactory as _
 
 
@@ -21,7 +26,6 @@ class UpdateSecuritySettings(BrowserView):
         """
         update security settings per type
         """
-        opt = {}
 
         if 'update' not in self.request:
             return self.template()
@@ -36,25 +40,24 @@ class UpdateSecuritySettings(BrowserView):
 
         return self.template(**status)
 
-    def get_info(self, msg, msg_type):
-        return dict(msg=msg,
-                    msg_type=msg_type,
-                    msg_type_value=_(msg_type))
-
     def update_security_settings(self, portal_type):
+        """
+        Search for all the portal_type brains in catalog and reindex the
+        related object security
+        """
         pwf = getToolByName(self.context, 'portal_workflow')
         pc = getToolByName(self.context, 'portal_catalog')
         wf = self.context.portal_workflow.getWorkflowsFor(portal_type)
         pt_title = translate(portal_type, domain='plone', context=self.request)
         if len(wf) != 1:
             msg = _(u"Unable to detect correct workflow for ${portal_type}",
-                    mapping={'portal_type':pt_title})
+                    mapping={'portal_type': pt_title})
             return self.get_info(msg, u'error')
 
         brains = pc(portal_type=portal_type)
         if not brains:
             msg = _(u"No brains found for ${portal_type}",
-                    mapping={'portal_type':pt_title})
+                    mapping={'portal_type': pt_title})
             return self.get_info(msg, u'warning')
 
         count = 0
@@ -67,7 +70,7 @@ class UpdateSecuritySettings(BrowserView):
                 self.context.plone_log('Committed %s' % str(count))
 
         msg = _(u"Process ends with the update of ${len_obj} ${portal_type} object(s)",
-                mapping={'len_obj':len(brains), 'portal_type':pt_title})
+                mapping={'len_obj': len(brains), 'portal_type': pt_title})
         return self.get_info(msg, u'info')
 
     @memoize
@@ -97,3 +100,11 @@ class UpdateSecuritySettings(BrowserView):
                                      domain='redturtle.utils',
                                      context=self.request)))
         return types
+
+    def get_info(self, msg, msg_type):
+        """
+        return a dictionary with message for the u.i.
+        """
+        return dict(msg=msg,
+                    msg_type=msg_type,
+                    msg_type_value=_(msg_type))
