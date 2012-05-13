@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"POT-Creation-Date: 2012-05-13 15:51+0000\n"
+"PO-Revision-Date: 2012-05-13 15:51+0000\n"
+"Last-Translator: Luca Bellenghi <luca.bellenghi@redturtle.it>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: it\n"
+"Language-Name: Italian\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: redturtle.utils\n"
+
+#: ./security_settings/update_security_settings.py:55
+msgid "No brains found for ${portal_type}"
+msgstr ""
+
+#: ./security_settings/update_security_settings.py:32
+msgid "No portal type selected! Please correct!"
+msgstr ""
+
+#: ./security_settings/update_security_settings.py:67
+msgid "Process ends with the update of ${len_obj} ${portal_type} object(s)"
+msgstr ""
+
+#: ./security_settings/update_security_settings.py:50
+msgid "Unable to detect correct workflow for ${portal_type}"
+msgstr ""
+
+#. Default: "Update Security Settings by type"
+#: ./security_settings/update_security_settings.pt:23
+msgid "description_update_security_settings"
+msgstr ""
+
+#. Default: "Back to Site"
+#: ./security_settings/update_security_settings.pt:16
+msgid "label_back_to_site"
+msgstr ""
+
+#. Default: "Update security settings"
+#: ./security_settings/update_security_settings.pt:13
+msgid "label_update_security_settings"
+msgstr ""

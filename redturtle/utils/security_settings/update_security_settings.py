@@ -47,12 +47,14 @@ class UpdateSecuritySettings(BrowserView):
         wf = self.context.portal_workflow.getWorkflowsFor(portal_type)
         pt_title = translate(portal_type, domain='plone', context=self.request)
         if len(wf) != 1:
-            msg = _(u"Unable to detect correct workflow for %s" % pt_title)
+            msg = _(u"Unable to detect correct workflow for ${portal_type}",
+                    mapping={'portal_type':pt_title})
             return self.get_info(msg, u'error')
 
         brains = pc(portal_type=portal_type)
         if not brains:
-            msg = _(u"No brains found for %s" % pt_title)
+            msg = _(u"No brains found for ${portal_type}",
+                    mapping={'portal_type':pt_title})
             return self.get_info(msg, u'warning')
 
         count = 0
@@ -64,8 +66,8 @@ class UpdateSecuritySettings(BrowserView):
                 commit()
                 self.context.plone_log('Committed %s' % str(count))
 
-        msg = _(u"Process ends with the update of %s %s object(s)"
-                % (len(brains), pt_title))
+        msg = _(u"Process ends with the update of ${len_obj} ${portal_type} object(s)",
+                mapping={'len_obj':len(brains), 'portal_type':pt_title})
         return self.get_info(msg, u'info')
 
     @memoize
