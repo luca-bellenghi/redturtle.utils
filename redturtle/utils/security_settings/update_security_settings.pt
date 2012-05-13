@@ -1,0 +1,48 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xml:lang="en" lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="redturtle.utils">
+
+    <body>
+
+        <div metal:fill-slot="prefs_configlet_main">
+            <h1 i18n:translate="label_update_security_settings">
+                Update security settings
+            </h1>
+            <a href=""
+               class="link-parent"
+               tal:attributes="href string:$portal_url"
+               i18n:translate="label_back_to_site">
+                Back to Site
+            </a>
+
+            <p class="discreet" i18n:translate="description_update_security_settings">
+                Update Security Settings by type
+            </p>
+
+            <tal:msg tal:condition="python: 'msg' in options">
+                <dl tal:attributes="class python:'portalMessage %s'%options['msg_type']">
+                    <dt tal:content="options/msg_type_value"></dt>
+                    <dd tal:content="options/msg"></dd>
+                </dl>
+            </tal:msg>
+
+            <form method="post"
+                tal:attributes="action string:${context/absolute_url}/@@update-security-settings">
+
+                <select name="portal_type">
+                    <tal:types tal:repeat="type view/get_all_types">
+                    <option tal:attributes="value type/id"
+                            tal:content="type/title">
+                    </option>
+                    </tal:types>
+                </select>
+            <input type="submit" name="update" />
+            </form>
+       </div>
+    </body>
+</html>
