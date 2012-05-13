@@ -6,6 +6,6 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <!-- -*- extra stuff goes here -*- -->
-  
+  <include package=".security_settings" />
+
 </configure>
